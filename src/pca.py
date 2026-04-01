@@ -10,11 +10,12 @@ def compute_pca(X):
     # Step 3: Eigen decomposition
     eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
 
-    # Step 4: Sort eigenvalues
+    # Step 4: Sort (IMPORTANT)
     idx = np.argsort(eigenvalues)[::-1]
+    eigenvalues = eigenvalues[idx]
     eigenvectors = eigenvectors[:, idx]
 
     # Step 5: Select top component
     principal_component = eigenvectors[:, 0]
 
-    return principal_component
+    return principal_component, eigenvalues
