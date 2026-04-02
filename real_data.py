@@ -1,23 +1,42 @@
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
-from src.pca import compute_pca
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Load dataset
+# Load data
 data = load_iris()
 X = data.data
-
-# PCA
-pc, eigenvalues = compute_pca(X)
+y = data.target
 
 # Mean center
 X_meaned = X - np.mean(X, axis=0)
 
-# Projection (4D → 1D)
-X_reduced = X_meaned.dot(pc)
+# Covariance
+cov_matrix = np.cov(X_meaned, rowvar=False)
 
-print("Projected shape:", X_reduced.shape)
+# Eigen
+eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
 
-# Explained variance
+# Sort
+idx = np.argsort(eigenvalues)[::-1]
+eigenvectors = eigenvectors[:, idx]
 explained_variance = eigenvalues / np.sum(eigenvalues)
-print("Explained Variance:", explained_variance)
+
+cumulative_variance = np.cumsum(explained_variance)
+
+print("Explained:", explained_variance)
+print("Cumulative:", cumulative_variance)
+# Top 2 components
+W = eigenvectors[:, :2]
+threshold = 0.95
+num_components = np.argmax(cumulative_variance >= threshold) + 1
+
+print("Optimal components:", num_components)
+# Project
+X_2D = X_meaned.dot(W)
+
+# Plot
+plt.scatter(X_2D[:, 0], X_2D[:, 1], c=y)
+plt.title("PCA - Iris Dataset (2D)")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.show()

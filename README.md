@@ -14,6 +14,17 @@ This project implements Principal Component Analysis (PCA) using basic linear al
 - Probability (Variance, Covariance)
 - Machine Learning (Dimensionality Reduction)
 
+## 📊 PCA Insights
+
+- Reduced 4D Iris dataset to 2D using PCA
+- First principal component captured ~92% variance
+- First 2 components captured ~97% variance
+- Demonstrated dimensionality reduction with minimal information loss
+
+## 📉 Feature Selection Strategy
+
+Used cumulative explained variance to select optimal number of components (95% threshold).
+
 ## 📂 Project Structure
 - src/ → core logic
 - data/ → datasets
