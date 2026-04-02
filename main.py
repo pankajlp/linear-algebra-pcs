@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from src.pca import compute_pca
+from sklearn.decomposition import PCA
+
 
 # Sample data
 X = np.array([
@@ -30,6 +32,14 @@ print("Projected Data:\n", X_reduced)
 # Explained variance (CORRECT ORDER)
 explained_variance = eigenvalues / np.sum(eigenvalues)
 print("Explained Variance:", explained_variance)
+
+
+# sklearn PCA
+pca = PCA(n_components=1)
+X_sklearn = pca.fit_transform(X)
+
+print("\nSklearn PCA:\n", X_sklearn.flatten())
+print("\nSklearn Explained Variance:", pca.explained_variance_ratio_)
 
 # Reconstruct points on line
 X_projected = np.outer(X_reduced, pc)
